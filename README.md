@@ -1,1 +1,3 @@
-# AlgorithmRep\n 常用算法备忘 
+# AlgorithmRep
+
+ 常用算法备忘
