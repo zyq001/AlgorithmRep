@@ -1,4 +1,4 @@
-package edu.bupt.zyq;
+package edu.bupt.zyq.list;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ public class ReverseLinkedList {
 	}
 
     public static void main(String[] args){
-		ListNode
+//		ListNode
     }
 
 }
