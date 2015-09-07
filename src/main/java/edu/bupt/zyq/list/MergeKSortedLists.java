@@ -1,5 +1,9 @@
 package edu.bupt.zyq.list;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 /**
  * Created by baidu on 15/8/26.
  */
@@ -42,6 +46,31 @@ public class MergeKSortedLists {
             }
         }
         return  pre.next;
+    }
+
+
+    /**
+     * Java PriorityQueue
+     * */
+    public static ListNode mergeKsortedListsP(ListNode[] lists){
+        if(lists == null || lists.length < 1) return null;
+        Queue<ListNode> pq = new PriorityQueue<ListNode>(lists.length, new Comparator<ListNode>(){
+            public int compare(ListNode l1, ListNode l2){
+                return l1.val == l2.val? 0 : (l1.val > l2.val? 1: -1);
+            }
+        });
+
+        ListNode p = new ListNode(0), q = p;
+        for(ListNode temp: lists)
+            if(temp != null) pq.add(temp);
+        while(!pq.isEmpty()){
+            ListNode l = pq.poll();
+            q.next = l;
+            q = q.next;
+            if(l.next != null) pq.add(l.next);
+        }
+
+        return p.next;
     }
 	
 }

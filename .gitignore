@@ -40,3 +40,4 @@ output
 */build
 out/
 */bin/
+.idea/*

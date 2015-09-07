@@ -1,5 +1,8 @@
 package edu.bupt.zyq.datastructure;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2015/9/5.
  */
