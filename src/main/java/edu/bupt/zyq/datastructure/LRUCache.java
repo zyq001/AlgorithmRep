@@ -8,89 +8,77 @@ import java.util.Map;
  */
 public class LRUCache {
 
-    Node head = null, tail = null;
-    Map<Integer, Node> hashmap ;
-    int cap;
-    class Node{//双链表节点
-        Node pre, next;
+    class ListNode{
         int val, key;
-        Node(int val, int key, Node pre, Node next){
-            this.next = next;
-            this.pre = pre;
-            this.val = val;
-            this.key = key;
-        }
-        void setVal(int val){
-            this.val = val;
+        ListNode pre, next;
+        public ListNode(int v, int k){
+            this.val = v;
+            this.key = k;
         }
     }
-    public LRUCache(int capacity) {
-        hashmap = new HashMap<Integer, Node>();
-        cap = capacity;
+    ListNode head = null, tail = null;
+    Map<Integer, ListNode> map;
+    int cap = 0;
+    public LRUCache(int capacity){
+        map = new HashMap<Integer, ListNode>(capacity);
+        // if(capacity < 1) throw new Exception("ilegal cap");
+        this.cap = capacity;
+    }
+
+    public void adjust(ListNode foundNode){
+        if(foundNode.pre != null){
+            foundNode.pre.next = foundNode.next;
+            if(foundNode.next != null) foundNode.next.pre = foundNode.pre;
+            if(foundNode == tail) tail = tail.pre;
+            foundNode.pre = null;
+            foundNode.next = head;
+            head.pre = foundNode;
+            head = foundNode;
+        }
     }
 
     public int get(int key) {
-        if(!hashmap.containsKey(key)) return -1;
-        Node n = hashmap.get(key);
-        if(n != head){//是头时不需要调整
-            if(n == tail){//要get的在队尾，则需要队尾指针前移以为；当只有一个节点时不用操作
-                tail = tail.pre;
-                tail.next = null;
-            }else
-                n.next.pre = n.pre;//只有不是尾的时候才需要调整
-
-            n.pre.next = n.next;//只要不是头就需要调整
-
-            //防止只有一个元素时 自己指自己
-            n.next = head;
-            head.pre = n;
-
-            n.pre = null;
-            head = n;
+        if(map.containsKey(key)){
+            //adjust the list
+            adjust(map.get(key));
+            return map.get(key).val;
         }
-        return hashmap.get(key).val;
-
+        return -1;
     }
 
     public void set(int key, int value) {
-        if(hashmap.containsKey(key)){//已存在
-            Node n = hashmap.get(key);
-            if(n != head){//是头时不需要调整
-                if(n == tail){//要get的在队尾，则需要队尾指针前移以为；当只有一个节点时不用操作
-                    tail = tail.pre;
-                    tail.next = null;
-                }else
-                    n.next.pre = n.pre;//只有不是尾的时候才需要调整
-
-                n.pre.next = n.next;//只要不是头就需要调整
-
-                //防止只有一个元素时 自己指自己
-                n.next = head;
-                head.pre = n;
-
-                n.pre = null;
-                head = n;
+        if(map.containsKey(key)) adjust(map.get(key));
+        else{
+            ListNode newNode = new ListNode(value,key);
+            map.put(key, newNode);
+            newNode.pre = null;
+            newNode.next = head;
+            if(head != null) head.pre = newNode;
+            head = newNode;
+            if(tail == null) tail = newNode;
+            if(map.size() > cap){
+                if(tail.pre != null) tail.pre.next = null;
+                map.remove(tail.key);
+                tail = tail.pre;
             }
-            n.setVal(value);
-        }else{//不存在
-            if(hashmap.size() == cap){//已达容量，删除最早的
-                hashmap.remove(tail.key);
-                if(tail.pre != null)
-                    tail = tail.pre;
-                tail.next = null;
-            }
-            Node newNode = new Node(value, key, null, head);
-            if(hashmap.size() == 0){
-                tail = newNode;
-                head = newNode;
-            }else{
-                head.pre = newNode;
-                newNode.next = head;
-                head = newNode;
-            }
-            hashmap.put(key, newNode);
-
         }
     }
 
+    public static void main(String[] args){
+        LRUCache l = new LRUCache(3);
+        l.set(1,1);
+        l.set(2, 2);
+        l.set(3, 3);
+        l.set(4, 4);
+        l.get(4);
+        l.get(3);
+        l.get(2);
+        l.get(1);
+
+        l.set(5, 5);
+        l.get(1);
+        l.get(2);
+        l.get(3);
+        System.out.println(l.get(2));
+    }
 }
