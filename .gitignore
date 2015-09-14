@@ -40,4 +40,4 @@ output
 */build
 out/
 */bin/
-.idea/*
+.idea/workspace.xml
