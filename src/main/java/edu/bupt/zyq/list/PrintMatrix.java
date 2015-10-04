@@ -42,7 +42,7 @@ public class PrintMatrix {
         return result;
     }
     public  static void main(String[] args) {
-        Solution s = new Solution();
+        PrintMatrix s = new PrintMatrix();
         int[][]a = {{1,2,3},{5,6,7},{8,9,10}};
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length; j++) {
