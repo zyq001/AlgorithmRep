@@ -61,6 +61,7 @@ public class ProduceConsumerQueue {
 
         ProduceConsumerQueue queue = new ProduceConsumerQueue(1000);
 
+
         new Thread(new Consumer(queue)).start();
         new Thread(new Producer(queue)).start();
     }
