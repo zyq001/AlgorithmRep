@@ -46,6 +46,7 @@ public class ProduceConsumerQueue {
         takePos = takePos % cap;
         queue[takePos++] = null;
         size--;
+
         System.out.println("Consume, size = " + size + "next put pos:" + putPos + "--takePos: " + takePos);
 
         notify();
@@ -59,6 +60,7 @@ public class ProduceConsumerQueue {
     public static void main(String[] args){
 
         ProduceConsumerQueue queue = new ProduceConsumerQueue(1000);
+
         new Thread(new Consumer(queue)).start();
         new Thread(new Producer(queue)).start();
     }
