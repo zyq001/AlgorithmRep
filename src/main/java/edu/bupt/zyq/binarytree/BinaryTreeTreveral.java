@@ -77,6 +77,7 @@ public class BinaryTreeTreveral {
 
     public List<Integer> postorderTraversal(TreeNode root) {
         //利用linkedList可以插入的特点，改造preAsm算法，
+//        Stack
         LinkedList<Integer> res = new LinkedList<Integer>();
         if(root == null) return res;
         Stack<TreeNode> stk = new Stack<TreeNode>(){};
